@@ -1,0 +1,71 @@
+import random
+
+# Banco de dados simples (na memória por enquanto)
+fiados = []
+estoque = []
+
+treinos_posicao = {
+    "levantador": ["100 levantamentos na parede", "50 levantamentos com alvo", "20 pulando"],
+    "central": ["40 bloqueios", "30 ataques de meio", "4x10 saltos"],
+    "ponteiro": ["30 ataques entrada", "50 recepcoes", "20 saques viagem"],
+    "oposto": ["30 ataques saida", "20 bloqueios", "30 saques forcados"],
+    "libero": ["100 manchetes", "50 recepcoes", "40 rolamentos"]
+}
+
+while True:
+    print("\n=== MEU SISTEMA COMPLETO ===")
+    print("1 - Caixa do dia")
+    print("2 - Anotar fiado")
+    print("3 - Alerta estoque")
+    print("4 - Treino de volei")
+    print("5 - Sair")
+
+    opcao = input("Escolha: ")
+
+    if opcao == "1":
+        valor = float(input("Valor da venda: "))
+        print(f"Venda de R${valor} registrada!")
+    elif opcao == "2":
+        nome = input("Nome do cliente: ").lower()
+        valor = float(input("Quanto fiado: "))
+
+        encontrou = False
+        for cliente in fiados:
+            if cliente[0] == nome:
+                cliente[1] += valor
+                encontrou = True
+                print(f"{nome} ja devia. Agora deve R${cliente[1]}")
+                break
+
+        if not encontrou:
+            fiados.append([nome, valor])
+            print(f"Novo fiado: {nome} deve R${valor}")
+
+        print(f"Lista atual: {fiados}")
+
+    elif opcao == "3":
+        produto = input("Produto: ")
+        qtd = int(input("Qtd atual: "))
+        minimo = int(input("Qtd minima: "))
+        estoque.append([produto, qtd, minimo])
+        if qtd <= minimo:
+            print(f"⚠️ ATENCAO: {produto} acabando!")
+        else:
+            print(f"✅ {produto} ok")
+
+    elif opcao == "4":
+        pos = input("Posicao (levantador, central, ponteiro, oposto, libero): ").lower()
+        if pos in treinos_posicao:
+            treino = random.sample(treinos_posicao[pos], 2)
+            print(f"\nTreino para {pos}:")
+            for t in treino:
+                print(f"- {t}")
+        else:
+            print("Posicao nao existe")
+
+    elif opcao == "5":
+        print("Saindo... valeu!")
+        break
+
+    else:
+        print("Opcao invalida, digita de 1 a 5")
